@@ -1,15 +1,11 @@
 import streamlit as st
 import pandas as pd
 
-
-# Page config
+# ===== PAGE CONFIG =====
 st.set_page_config(page_title="Alumni Tracking System", layout="wide")
 
-# ===== LOAD DATA (BULLETPROOF PATH) =====
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(BASE_DIR, "data", "raw", "alumni.csv")
-df = pd.read_csv("alumni.csv")  
+# ===== LOAD DATA (ROOT FILE) =====
+df = pd.read_csv("alumni.csv")
 
 # ===== TITLE =====
 st.title("🎓 Alumni Tracking System Dashboard")
