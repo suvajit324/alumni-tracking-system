@@ -41,29 +41,6 @@ Query Language: SQL
 
 ---
 
-## 📂 Project Structure
-
-alumni-tracking-system/
-│
-├── data/
-│   ├── raw/alumni.csv
-│   ├── processed/alumni_cleaned.csv
-│
-├── scripts/
-│   ├── generate_data.py
-│   ├── transformation.py
-│   ├── load.py
-│
-├── sql/
-│   ├── queries.sql
-│
-├── logs/
-├── app.py
-├── alumni.db
-├── README.md
-
----
-
 ## 🔄 Workflow
 
 CSV → Python (ETL) → SQLite Database → Streamlit Dashboard
@@ -86,7 +63,7 @@ python scripts/load.py
 python -m streamlit run app.py  
 
 Open in browser:  
-http://localhost:8501
+https://alumni-tracking-system-fieqyfwycdkbspycfmk2mn.streamlit.app/
 
 ---
 
