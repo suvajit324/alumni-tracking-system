@@ -1,24 +1,28 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # Page config
 st.set_page_config(page_title="Alumni Tracking System", layout="wide")
 
-# Load data from CSV (IMPORTANT CHANGE)
-df = pd.read_csv("data/processed/alumni_cleaned.csv")
+# ===== LOAD DATA (BULLETPROOF PATH) =====
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(BASE_DIR, "data", "raw", "alumni.csv")
 
-# Title
+df = pd.read_csv(file_path)
+
+# ===== TITLE =====
 st.title("🎓 Alumni Tracking System Dashboard")
 
-# Metrics
+# ===== METRICS =====
 col1, col2, col3 = st.columns(3)
-col1.metric("Total Alumni", len(df))
-col2.metric("Average Salary", int(df["salary"].mean()))
-col3.metric("Max Salary", int(df["salary"].max()))
+col1.metric("👨‍🎓 Total Alumni", len(df))
+col2.metric("💰 Avg Salary", f"₹{int(df['salary'].mean())}")
+col3.metric("🚀 Highest Salary", f"₹{int(df['salary'].max())}")
 
 st.divider()
 
-# Sidebar Filters
+# ===== SIDEBAR FILTERS =====
 st.sidebar.header("🔍 Filters")
 
 dept = st.sidebar.selectbox(
@@ -36,7 +40,7 @@ salary_range = st.sidebar.slider(
     (int(df["salary"].min()), int(df["salary"].max()))
 )
 
-# Apply filters
+# ===== APPLY FILTERS =====
 filtered_df = df.copy()
 
 if dept != "All":
@@ -50,11 +54,11 @@ filtered_df = filtered_df[
     (filtered_df["salary"] <= salary_range[1])
 ]
 
-# Show data
+# ===== DISPLAY DATA =====
 st.subheader("📋 Filtered Alumni Data")
 st.dataframe(filtered_df, use_container_width=True)
 
-# Charts
+# ===== CHARTS =====
 col1, col2 = st.columns(2)
 
 with col1:
@@ -67,19 +71,21 @@ with col2:
     year_chart = df["graduation_year"].value_counts()
     st.bar_chart(year_chart)
 
-# Search feature
+# ===== SEARCH =====
 st.subheader("🔎 Search Alumni by Name")
+
 search = st.text_input("Enter name")
 
 if search:
     result = df[df["name"].str.contains(search, case=False)]
     st.write(result)
 
-# Download button
+# ===== DOWNLOAD =====
 st.subheader("⬇ Download Data")
-csv = df.to_csv(index=False).encode('utf-8')
+
+csv = df.to_csv(index=False).encode("utf-8")
 st.download_button("Download CSV", csv, "alumni_data.csv", "text/csv")
 
-# Footer
+# ===== FOOTER =====
 st.markdown("---")
 st.markdown("<center>Made with ❤️ using Streamlit</center>", unsafe_allow_html=True)
